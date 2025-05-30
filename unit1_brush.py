@@ -61,7 +61,7 @@ def get_google_sheet():
         scopes=["https://www.googleapis.com/auth/spreadsheets"]
     )
     gc = gspread.authorize(creds)
-    return gc.open_by_url("https://docs.google.com/spreadsheets/d/1Pd6ISon7-7n7w22gPs4S3I9N7k-6uODdyiTvsfXaSqY")
+    return gc.open_by_url("https://docs.google.com/spreadsheets/d/1ZLpTZAqqGYQgoqvlCSg9ku4SXUtH7Fas4Z8egT4HNXY/edit?usp=sharing")
 
 # ✅ ใช้ทุกหน้าแทน gc.open_by_url()
 sh = get_google_sheet()
@@ -81,7 +81,7 @@ def get_sheet_names_cached():
 import requests
 from io import BytesIO
 
-sheet_id = "1Pd6ISon7-7n7w22gPs4S3I9N7k-6uODdyiTvsfXaSqY"
+sheet_id = "1ZLpTZAqqGYQgoqvlCSg9ku4SXUtH7Fas4Z8egT4HNXY"
 sheet_url_export = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=xlsx"
 
 
