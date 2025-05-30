@@ -212,7 +212,7 @@ if page == "📝 กรอกข้อมูลแปลงถ่านเพิ
             lower_prev_left  = [[f"={last_sheet}!C{i+3}"] for i in range(24)]  # ซ้าย
             lower_prev_right = [[f"={last_sheet}!E{i+3}"] for i in range(24)]  # ขวา
             upper_prev_left  = [[f"={last_sheet}!H{i+3}"] for i in range(24)]
-            upper_prev_right = [[f"={last_sheet}!J{i+3}"] for i in range(32)]
+            upper_prev_right = [[f"={last_sheet}!J{i+3}"] for i in range(24)]
 
             
 
@@ -256,7 +256,7 @@ if page == "📝 กรอกข้อมูลแปลงถ่านเพิ
             
             import time
 
-            for i in range(32):
+            for i in range(24):
 
                 if i % 10 == 0:
                     time.sleep(2)
