@@ -332,8 +332,13 @@ if page == "📝 กรอกข้อมูลแปลงถ่านเพิ
             st.markdown(f"<div style='text-align: center;'>แปรง {i+1} ➡️ ขวา</div>", unsafe_allow_html=True)
             val_r = st.text_input("", key=f"ur_{i}", value="", label_visibility="collapsed")
             upper_right.append(float(val_r) if val_r else 0.0)
+            
                     
-                
+    sheet_names = get_sheet_names_cached()
+    last_sheet = sheet_names[-1]
+    sheet_number = int(last_sheet.replace("Sheet", "")) if last_sheet.startswith("Sheet") else 1
+    next_sheet_name = f"Sheet{sheet_number + 1}"
+             
                 
 
 if st.button(f"➕ สร้างชีตที่ {next_sheet_name}"):
