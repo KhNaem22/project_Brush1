@@ -333,30 +333,7 @@ if page == "📝 กรอกข้อมูลแปลงถ่านเพิ
             val_r = st.text_input("", key=f"ur_{i}", value="", label_visibility="collapsed")
             upper_right.append(float(val_r) if val_r else 0.0)
             
-                    
-    sheet_names = get_sheet_names_cached()
-    last_sheet = sheet_names[-1]
-    sheet_number = int(last_sheet.replace("Sheet", "")) if last_sheet.startswith("Sheet") else 1
-    next_sheet_name = f"Sheet{sheet_number + 1}"
-             
-                
-
-if st.button(f"➕ สร้างชีตที่ {next_sheet_name}"):
-    new_ws = sh.add_worksheet(title=next_sheet_name, rows="100", cols="20")
-
-    # ✅ ใช้สูตรย้อนหลัง 24 ตัว
-    lower_prev_left  = [[f"={last_sheet}!C{i+3}"] for i in range(24)]
-    lower_prev_right = [[f"={last_sheet}!E{i+3}"] for i in range(24)]
-    upper_prev_left  = [[f"={last_sheet}!H{i+3}"] for i in range(24)]
-    upper_prev_right = [[f"={last_sheet}!J{i+3}"] for i in range(24)]
-
-    new_ws.update("C3:C26", lower_prev_left, value_input_option="USER_ENTERED")
-    new_ws.update("E3:E26", lower_prev_right, value_input_option="USER_ENTERED")
-    new_ws.update("H3:H26", upper_prev_left, value_input_option="USER_ENTERED")
-    new_ws.update("J3:J26", upper_prev_right, value_input_option="USER_ENTERED")
-
-    st.success(f"✅ สร้างชีต {next_sheet_name} เรียบร้อยแล้ว")
-
+ 
 
 
 
