@@ -270,16 +270,74 @@ if page == "📝 กรอกข้อมูลแปลงถ่านเพิ
             st.error(f"❌ เกิดข้อผิดพลาด: {e}")
 
 
-
-
-
-
-    # โหลดค่าทันทีจาก selected_sheet
+    # ✅ โหลดค่าทันทีจาก selected_sheet และป้องกัน error
     ws = sh.worksheet(selected_sheet)
     df_prev = ws.get_all_values()
 
-    lower_current = [row[2] if len(row) > 2 else "" for row in df_prev[2:34]]
-    upper_current = [row[5] if len(row) > 5 else "" for row in df_prev[2:34]]
+    def get_value(row, index):
+        return row[index] if len(row) > index else ""
+
+    rows = df_prev[2:34]  # ดึงแถว 3 ถึง 26 (index เริ่มที่ 0)
+    while len(rows) < 24:
+        rows.append([""] * 10)  # ถ้ายังไม่ครบ 24 แถว ให้เติมแถวว่าง
+
+    lower_current_left  = [get_value(row, 2) for row in rows]
+    lower_current_right = [get_value(row, 4) for row in rows]
+    upper_current_left  = [get_value(row, 7) for row in rows]
+    upper_current_right = [get_value(row, 9) for row in rows]
+
+    # ✅ ชั่วโมงและวันที่
+    try:
+        default_hours = float(ws.acell("H1").value or 0)
+    except:
+        default_hours = 0.0
+    default_prev_date = ws.acell("A2").value or ""
+    default_curr_date = ws.acell("B2").value or ""
+
+    hours = st.number_input("⏱️ ชั่วโมง", min_value=0.0, step=0.1, value=float(default_hours))
+    prev_date = st.text_input("📅 วันที่ตรวจก่อนหน้า", placeholder="DD/MM/YYYY", value=default_prev_date)
+    curr_date = st.text_input("📅 วันที่ตรวจล่าสุด", placeholder="DD/MM/YYYY", value=default_curr_date)
+
+    # ✅ LOWER ซ้าย / ขวา
+    st.markdown("### 🔧 แปรงถ่าน LOWER ซ้าย / ขวา")
+    lower_left = []
+    lower_right = []
+    cols = st.columns(6)
+    for i in range(24):
+        col = cols[i % 6]
+        with col:
+            st.markdown(f"<div style='text-align: center;'>แปรง {i+1} ⬅️ ซ้าย</div>", unsafe_allow_html=True)
+            default_val_l = lower_current_left[i] if i < len(lower_current_left) else ""
+            val_l = st.text_input("", key=f"ll_{i}", value=default_val_l, label_visibility="collapsed")
+            lower_left.append(float(val_l) if val_l else 0.0)
+
+            st.markdown(f"<div style='text-align: center;'>แปรง {i+1} ➡️ ขวา</div>", unsafe_allow_html=True)
+            default_val_r = lower_current_right[i] if i < len(lower_current_right) else ""
+            val_r = st.text_input("", key=f"lr_{i}", value=default_val_r, label_visibility="collapsed")
+            lower_right.append(float(val_r) if val_r else 0.0)
+
+    # ✅ UPPER ซ้าย / ขวา
+    st.markdown("### 🔧 แปรงถ่าน UPPER ซ้าย / ขวา")
+    upper_left = []
+    upper_right = []
+    cols = st.columns(6)
+    for i in range(24):
+        col = cols[i % 6]
+        with col:
+            st.markdown(f"<div style='text-align: center;'>แปรง {i+1} ⬅️ ซ้าย</div>", unsafe_allow_html=True)
+            default_val_l = upper_current_left[i] if i < len(upper_current_left) else ""
+            val_l = st.text_input("", key=f"ul_{i}", value=default_val_l, label_visibility="collapsed")
+            upper_left.append(float(val_l) if val_l else 0.0)
+
+            st.markdown(f"<div style='text-align: center;'>แปรง {i+1} ➡️ ขวา</div>", unsafe_allow_html=True)
+            default_val_r = upper_current_right[i] if i < len(upper_current_right) else ""
+            val_r = st.text_input("", key=f"ur_{i}", value=default_val_r, label_visibility="collapsed")
+            upper_right.append(float(val_r) if val_r else 0.0)
+        
+
+
+
+
 
     # โหลดชั่วโมง/วัน
     try:
